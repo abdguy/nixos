@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./hack-son.nix
+  ];
+}
