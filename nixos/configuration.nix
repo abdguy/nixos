@@ -10,16 +10,15 @@
       ./hardware-configuration.nix
     ];
 
-
-
-
   # Bootloader.
- boot.loader.grub.enable = true;
+  boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/vda";
   boot.loader.grub.useOSProber = true;
 
+  # Use latest kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "hack"; # Define your hostname.
+  networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -47,52 +46,34 @@
     LC_TIME = "ur_PK";
   };
 
-  # Enable the X11 windowing system.
- # services.xserver.enable = true;
 
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
 
-# Enable thyx (if this option exists)
-services.displayManager.sddm = {
-  enable = true;
-  wayland.enable = true;
-  thyx.enable = true;
-};
-
-# Enable touchpad/mouse support
-
-hardware.enableAllFirmware = true;
-
-services.libinput = {
-  enable = true;
-  mouse = {
-    accelProfile = "flat";
+    trusted-users = [
+      "root"
+      "hackson"
+    ];
   };
-};
 
-#  services.xserver.displayManager.gdm.enable = true;
-#services.xserver.displayManager.gdm.wayland = true;
-  
-  #clipboard outer
-  virtualisation.virtualbox.guest.enable = true;
-  virtualisation.virtualbox.guest.clipboard = true;
-  
-  virtualisation.libvirtd.enable = true;
-  
-  # Install virt-manager (the GUI)
-  programs.virt-manager.enable = true;
- 
- nix = {
+  services.openssh = {
+    enable = true;
+
     settings = {
-      experimental-features = "nix-command flakes";
-      trusted-users = [
-        "root"
-        "hackson"
-      ]; # Set users that are allowed to use the flake command
-    }; 
- };
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;   # Set to false if using SSH keys only
+      KbdInteractiveAuthentication = false;
+      X11Forwarding = true;
+    };
 
- security.sudo.wheelNeedsPassword = false;
+  };
 
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+
+  # Enable the Pantheon Desktop Environment.
+  services.xserver.displayManager.lightdm.enable = true;
+  services.desktopManager.pantheon.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -105,7 +86,6 @@ services.libinput = {
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
-  #services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -127,7 +107,11 @@ services.libinput = {
   users.users."hackson" = {
     isNormalUser = true;
     description = "hackson";
-    extraGroups = [ "networkmanager" "wheel" "input" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" ];
+    openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINxBi5h9tEePOsr3UBxBNxm1/YxfdVvzqpPYhIHjO6nJ your_email@example.com"
+  ];
+
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -139,48 +123,12 @@ services.libinput = {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-
-
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    git
-    nano
-     mesa
-  vulkan-tools
-  spice-vdagent
-   vscode  
-
-   brightnessctl
-   virt-manager
-  grimblast
-  wl-clipboard
-  cliphist
-
-  hyprpaper
-  networkmanagerapplet  
-   
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
   ];
-
-  services.openssh = {
-  enable = true;
-  settings.PasswordAuthentication = true;
-  settings.PermitRootLogin = "no";
-  allowSFTP = true;
-  
-};
-
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
-  programs.fish.enable = true;
-
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -193,8 +141,8 @@ services.libinput = {
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-   # nix.settings.trusted-users= ["root" "hackson"];
-   #nix.settings.experimental-features = ["nix-command" "flakes"];
+  # services.openssh.enable = true;
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

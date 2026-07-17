@@ -9,6 +9,7 @@ in
   imports = [ 
     ./home.nix 
     ../common  
+    ./dotfiles
     ../features/cli 
     ../features/desktop
   ]; 
@@ -22,6 +23,7 @@ in
        
     };
     desktop = {
+      fonts.enable = true;
       hyprland.enable = true;
       wayland.enable = true;
     };
@@ -41,7 +43,7 @@ in
         }
       ];
       
-      monitor = ",preferred,auto,auto";
+       monitor = ",preferred,auto,auto";
 
       # 3. FIXED: Assigned the mapped workspaces to the 'bind' list
       bind = [

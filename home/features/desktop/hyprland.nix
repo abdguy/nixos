@@ -19,8 +19,7 @@ in
       enable = true;
 
       settings = {
-        monitor = ",preferred,auto,auto";
-
+       
         env = [
           "WLR_RENDERER_ALLOW_SOFTWARE,1"
           "XCURSOR_SIZE,24"

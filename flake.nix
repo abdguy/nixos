@@ -17,12 +17,17 @@
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+
+    dotfiles = {
+        url = "git+https://github.com/madnight/nano.git";
+        flake = false;
+    };
      
     thyx.url = "github:rccyx/thyx";
   
   };
 
-  outputs = { self, home-manager, nixpkgs,thyx, ... }@inputs:
+  outputs = { self, home-manager, nixpkgs,thyx, dotfiles, ... }@inputs:
     let
       inherit (self) outputs;
       systems = [

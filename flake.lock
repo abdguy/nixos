@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "dotfiles": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783911297,
+        "narHash": "sha256-WXHdBHNcyq3QGNyqIjDM41wxYqiaN+AXZcfiaibUhW4=",
+        "ref": "refs/heads/master",
+        "rev": "652f9e92848af44f9f0530d36e6a5c1b080c649e",
+        "revCount": 10752,
+        "type": "git",
+        "url": "https://github.com/madnight/nano.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://github.com/madnight/nano.git"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -70,6 +86,7 @@
     },
     "root": {
       "inputs": {
+        "dotfiles": "dotfiles",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
