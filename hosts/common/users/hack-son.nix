@@ -17,5 +17,5 @@
     packages = [inputs.home-manager.packages.${pkgs.system}.default];
 
     };
-   home-manager.users.hackson = import ../../../home/hackson/hack.nix;
+   home-manager.users.hackson = import ../../../home/hackson/${config.networking.hostName}.nix;
 }

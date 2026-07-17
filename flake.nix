@@ -18,6 +18,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     dotfiles = {
         url = "git+https://github.com/madnight/nano.git";
         flake = false;
@@ -27,7 +32,7 @@
   
   };
 
-  outputs = { self, home-manager, nixpkgs,thyx, dotfiles, ... }@inputs:
+  outputs = { self, home-manager, nixpkgs,thyx, dotfiles,disko, ... }@inputs:
     let
       inherit (self) outputs;
       systems = [
@@ -45,7 +50,9 @@
       nixosConfigurations = {
         hack = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          modules = [./hosts/hack-son  
+          modules = [./hosts/hack-son
+
+          inputs.disko.nixosModules.disko
           
            thyx.nixosModules.default
 
