@@ -13,7 +13,14 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/4a29d2e7-9722-4918-8c9c-e1ecaf6e8db7";
+      fsType = "ext4";
+    };
 
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/a444e76f-62bf-4e26-bcdb-39d87e695b25"; }
+    ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
