@@ -3,22 +3,12 @@
     ...
 }: {
     imports =[
-        ./fish.nix
+        ./fish
         ./fzf.nix
                
     ];
-    programs.zoxide = {
-        enable =true;
-        enableFishIntegration  = true;
-    };
+   
     
-    programs.eza = {
-        enable = true;
-        enableFishIntegration = true;
-        enableBashIntegration = true;
-        extraOptions = ["-1" "--icons" "--git" "-a"];
-
-    };
 
     programs.bat = {enable = true;};
 

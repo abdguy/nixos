@@ -12,14 +12,17 @@ in
     ./dotfiles
     ../features/cli 
     ../features/desktop
+    ../features/cli/fish
   ]; 
 
   # Note: This will only work if you defined custom 'features' 
   # options in your other module files!
   features = {
     cli = {
-        fish.enable = true;
-        fzf.enable = true;
+      fish = {
+        enable = true;
+        #fzf.enable = true;
+      };
        
     };
     desktop = {
